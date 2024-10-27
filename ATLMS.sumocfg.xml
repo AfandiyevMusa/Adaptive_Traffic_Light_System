@@ -9,7 +9,7 @@
         </input>
         <simulation>
             <begin value="0"/>
-            <end value="500"/>
+            <end value="2000"/>
             <step-length value="1"/>
         </simulation>
         <output>
