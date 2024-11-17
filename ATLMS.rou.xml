@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2024-08-18 00:26:47 by Eclipse SUMO netedit Version v1_20_0+1561-e9de7d68da5
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!-- Define vehicle types -->
+    <vType id="car" vClass="passenger" color="1,0,0" />
+    <vType id="truck" vClass="truck" color="0,1,0" />
+
+    <!-- E0 -->
+    <route id="route_forward_1" edges="E0 E1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_2" edges="E0 E0_1 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_3" edges="E0 E0_1 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_4" edges="E0 E0_1 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_5" edges="E0 E0_1 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_6" edges="E0 E0_1 EC0 E1_1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_7" edges="E0 E0_1 EC0 EC1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_8" edges="E0 E0_1 EC0 EC1 EC2 EC3 -E0_1 -E0"/>
+
+    <!-- LA2 -->
+    <route id="route_forward_9" edges="LA2 -E0_1 -E0"/>
+    <route id="route_forward_10" edges="LA2 EC4 EC0 EC1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_11" edges="LA2 EC4 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_12" edges="LA2 EC4 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_13" edges="LA2 EC4 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_14" edges="LA2 EC4 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_15" edges="LA2 EC4 EC0 E1_1 E2 E3 E4 E5 E6"/>
+
+    <!-- -EB1 -->
+    <route id="route_forward_16" edges="-EB1 -EB0"/>
+    <route id="route_forward_17" edges="-EB1 -E2 -E1 -E0"/>
+    <route id="route_forward_18" edges="-EB1 -E2 -E1_1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_19" edges="-EB1 -E2 -E1_1 EC2 EC3 -E0_1 -E0"/>
+    <route id="route_forward_20" edges="-EB1 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_21" edges="-EB1 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_22" edges="-EB1 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_23" edges="-EB1 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_24" edges="-EB1 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_25" edges="-EB1 E3 -ES0"/>
+    <route id="route_forward_26" edges="-EB1 E3 ES1"/>
+    <route id="route_forward_27" edges="-EB1 E3 E4 E5 E6"/>
+
+    <!-- EB0 -->
+    <route id="route_forward_28" edges="EB0 EB1"/>
+    <route id="route_forward_29" edges="EB0 -E2 -E1 -E0"/>
+    <route id="route_forward_30" edges="EB0 -E2 -E1_1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_31" edges="EB0 -E2 -E1_1 EC2 EC3 -E0_1 -E0"/>
+    <route id="route_forward_32" edges="EB0 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_33" edges="EB0 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_34" edges="EB0 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_35" edges="EB0 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_36" edges="EB0 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_37" edges="EB0 E3 -ES0"/>
+    <route id="route_forward_38" edges="EB0 E3 ES1"/>
+    <route id="route_forward_39" edges="EB0 E3 E4 E5 E6"/>
+
+    <!-- -ES1 -->
+    <route id="route_forward_40" edges="-ES1 -ES0"/>
+    <route id="route_forward_41" edges="-ES1 -E3 -E2 -E1 -E0"/>
+    <route id="route_forward_42" edges="-ES1 -E3 -E2 -E1_1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_43" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 -E0_1 -E0"/>
+    <route id="route_forward_44" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_45" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_46" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_47" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_48" edges="-ES1 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_49" edges="-ES1 -E3 EB1"/>
+    <route id="route_forward_50" edges="-ES1 -E3 -EB0"/>
+    <route id="route_forward_51" edges="-ES1 E4 E5 E6"/>
+
+    <!-- ES0 -->
+    <route id="route_forward_52" edges="ES0 ES1"/>
+    <route id="route_forward_53" edges="ES0 E4 E5 E6"/>
+
+    <!-- ER0 -->
+    <route id="route_forward_54" edges="ER0 ER1 E5 E6"/>
+    <route id="route_forward_55" edges="ER0 ER1 -E4 ES1"/>
+    <route id="route_forward_56" edges="ER0 ER1 -E4 -ES0"/>
+    <route id="route_forward_57" edges="ER0 ER1 -E4 -E3 -E2 -E1 -E0"/>
+    <route id="route_forward_58" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC2_1 -LA2"/>
+    <route id="route_forward_59" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 -E0_1 -E0"/>
+    <route id="route_forward_60" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 -EB0"/>
+    <route id="route_forward_61" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 EB1"/>
+    <route id="route_forward_62" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 -ES0"/>
+    <route id="route_forward_63" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 ES1"/>
+    <route id="route_forward_64" edges="ER0 ER1 -E4 -E3 -E2 -E1_1 EC2 EC3 EC4 EC0 E1_1 E2 E3 E4 E5 E6"/>
+    <route id="route_forward_65" edges="ER0 ER1 -E4 -E3 EB1"/>
+    <route id="route_forward_66" edges="ER0 ER1 -E4 -E3 -EB0"/>
+
+<flow id="low_flow_forward_1" route="route_forward_1" begin="0.00" end="500.00" number="600"/>
+    <flow id="low_flow_forward_2" route="route_forward_2" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_3" route="route_forward_3" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_4" route="route_forward_4" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_5" route="route_forward_5" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_6" route="route_forward_6" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_7" route="route_forward_7" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_8" route="route_forward_8" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_9" route="route_forward_9" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_10" route="route_forward_10" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_11" route="route_forward_11" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_12" route="route_forward_12" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_13" route="route_forward_13" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_14" route="route_forward_14" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_15" route="route_forward_15" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_16" route="route_forward_16" begin="0.00" end="500.00" number="200"/>
+    <flow id="low_flow_forward_17" route="route_forward_17" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_18" route="route_forward_18" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_19" route="route_forward_19" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_20" route="route_forward_20" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_21" route="route_forward_21" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_22" route="route_forward_22" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_23" route="route_forward_23" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_24" route="route_forward_24" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_25" route="route_forward_25" begin="0.00" end="500.00" number="300"/>
+    <flow id="low_flow_forward_26" route="route_forward_26" begin="0.00" end="500.00" number="60"/>
+    <flow id="low_flow_forward_27" route="route_forward_27" begin="0.00" end="500.00" number="200"/>
+    <flow id="low_flow_forward_28" route="route_forward_28" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_29" route="route_forward_29" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_30" route="route_forward_30" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_31" route="route_forward_31" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_32" route="route_forward_32" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_33" route="route_forward_33" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_34" route="route_forward_34" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_35" route="route_forward_35" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_36" route="route_forward_36" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_37" route="route_forward_37" begin="0.00" end="500.00" number="400"/>
+    <flow id="low_flow_forward_38" route="route_forward_38" begin="0.00" end="500.00" number="60"/>
+    <flow id="low_flow_forward_39" route="route_forward_39" begin="0.00" end="500.00" number="400"/>
+    <flow id="low_flow_forward_40" route="route_forward_40" begin="0.00" end="500.00" number="800"/>
+    <flow id="low_flow_forward_41" route="route_forward_41" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_42" route="route_forward_42" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_43" route="route_forward_43" begin="0.00" end="500.00" number="30"/>
+    <flow id="low_flow_forward_44" route="route_forward_44" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_45" route="route_forward_45" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_46" route="route_forward_46" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_47" route="route_forward_47" begin="0.00" end="500.00" number="60"/>
+    <flow id="low_flow_forward_48" route="route_forward_48" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_49" route="route_forward_49" begin="0.00" end="500.00" number="300"/>
+    <flow id="low_flow_forward_50" route="route_forward_50" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_51" route="route_forward_51" begin="0.00" end="500.00" number="400"/>
+    <flow id="low_flow_forward_52" route="route_forward_52" begin="0.00" end="500.00" number="1200"/>
+    <flow id="low_flow_forward_53" route="route_forward_53" begin="0.00" end="500.00" number="1200"/>
+    <flow id="low_flow_forward_54" route="route_forward_54" begin="0.00" end="500.00" number="3000"/>
+    <flow id="low_flow_forward_55" route="route_forward_55" begin="0.00" end="500.00" number="1200"/>
+    <flow id="low_flow_forward_56" route="route_forward_56" begin="0.00" end="500.00" number="600"/>
+    <flow id="low_flow_forward_57" route="route_forward_57" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_58" route="route_forward_58" begin="0.00" end="500.00" number="40"/>
+    <flow id="low_flow_forward_59" route="route_forward_59" begin="0.00" end="500.00" number="40"/>
+    <flow id="low_flow_forward_60" route="route_forward_60" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_61" route="route_forward_61" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_62" route="route_forward_62" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_63" route="route_forward_63" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_64" route="route_forward_64" begin="0.00" end="500.00" number="20"/>
+    <flow id="low_flow_forward_65" route="route_forward_65" begin="0.00" end="500.00" number="100"/>
+    <flow id="low_flow_forward_66" route="route_forward_66" begin="0.00" end="500.00" number="100"/>
+
+</routes>
