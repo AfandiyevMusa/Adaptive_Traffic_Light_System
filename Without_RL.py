@@ -104,7 +104,11 @@ def run_simulation(simulation_time):
         traci.simulationStep()  # Advance the simulation by one step
         
         # Extract data at every yellow light phase change
-        for tls_id in traci.trafficlight.getIDList():         
+        for tls_id in traci.trafficlight.getIDList():    
+
+            # if tls_id != "JM1":
+            #     continue
+
             logic = traci.trafficlight.getCompleteRedYellowGreenDefinition(tls_id)[0]
             for phase in logic.getPhases():
                 if 'y' in phase.state:  # Yellow light phase
@@ -178,5 +182,5 @@ if __name__ == "__main__":
     result_df = run_simulation(simulation_time)
 
     # Save the result to a CSV or display it
-    result_df.to_csv('17_11_DEMO_WithoutRL.csv', index=False)
+    result_df.to_csv('23_11_WithoutRL.csv', index=False)
     print("Simulation completed. Results saved to 'output.csv'.")

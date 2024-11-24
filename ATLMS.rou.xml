@@ -139,10 +139,10 @@
     <flow id="low_flow_forward_49" route="route_forward_49" begin="0.00" end="500.00" number="300"/>
     <flow id="low_flow_forward_50" route="route_forward_50" begin="0.00" end="500.00" number="100"/>
     <flow id="low_flow_forward_51" route="route_forward_51" begin="0.00" end="500.00" number="400"/>
-    <flow id="low_flow_forward_52" route="route_forward_52" begin="0.00" end="500.00" number="1200"/>
-    <flow id="low_flow_forward_53" route="route_forward_53" begin="0.00" end="500.00" number="1200"/>
-    <flow id="low_flow_forward_54" route="route_forward_54" begin="0.00" end="500.00" number="3000"/>
-    <flow id="low_flow_forward_55" route="route_forward_55" begin="0.00" end="500.00" number="1200"/>
+    <flow id="low_flow_forward_52" route="route_forward_52" begin="0.00" end="500.00" number="1000"/>  <!--changed from 1.2k to 1k-->
+    <flow id="low_flow_forward_53" route="route_forward_53" begin="0.00" end="500.00" number="1000"/>  <!--changed from 1.2k to 1k-->
+    <flow id="low_flow_forward_54" route="route_forward_54" begin="0.00" end="500.00" number="2000"/>  <!--changed from 1.2k to 1k-->
+    <flow id="low_flow_forward_55" route="route_forward_55" begin="0.00" end="500.00" number="1000"/>  <!--changed from 1.2k to 1k-->
     <flow id="low_flow_forward_56" route="route_forward_56" begin="0.00" end="500.00" number="600"/>
     <flow id="low_flow_forward_57" route="route_forward_57" begin="0.00" end="500.00" number="100"/>
     <flow id="low_flow_forward_58" route="route_forward_58" begin="0.00" end="500.00" number="40"/>
