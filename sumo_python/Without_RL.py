@@ -135,7 +135,7 @@ def run_simulation(simulation_time):
                     action = choose_action(state, possible_actions)
                     
                     # Adjust traffic light durations based on the action
-                    # adjust_traffic_lights(tls_id, action)
+                    adjust_traffic_lights(tls_id, action)
                     
                     # Run for a step to see the effect of the action
                     traci.simulationStep()
@@ -151,7 +151,7 @@ def run_simulation(simulation_time):
                     next_state = (tls_id, round(max_new_ratio, 2))
                     
                     # Update the Q-table
-                    # update_q_table(state, action, reward, next_state, possible_actions)
+                    update_q_table(state, action, reward, next_state, possible_actions)
                     
                     # Store the traffic light timings and state info
                     data.append({
@@ -182,5 +182,5 @@ if __name__ == "__main__":
     result_df = run_simulation(simulation_time)
 
     # Save the result to a CSV or display it
-    result_df.to_csv('23_11_WithoutRL.csv', index=False)
+    result_df.to_csv('01_12_WithRL.csv', index=False)
     print("Simulation completed. Results saved to 'output.csv'.")
