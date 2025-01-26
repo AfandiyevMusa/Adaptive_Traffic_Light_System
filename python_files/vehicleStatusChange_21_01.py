@@ -98,7 +98,7 @@ class SumoEnvironment:
         self.conn       = None
 
         # min/max durations for green or red
-        self.min_duration = 0
+        self.min_duration = 1
         self.max_duration = 120
 
     def reset(self, episode_idx=0):
@@ -366,7 +366,9 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes,
             # We can approximate by summing getLastStepVehicleNumber for each lane
             active_cars = 0
             for lane_id in lanes:
-                active_cars += env.conn.lane.getLastStepVehicleNumber(lane_id)
+                # active_cars += env.conn.lane.getLastStepVehicleNumber(lane_id)
+                active_cars += env.conn.lane.getLastStepHaltingNumber(lane_id)
+
 
             # We'll log for each lane
             for lane_id in lanes:
@@ -439,7 +441,7 @@ if __name__ == "__main__":
         tls_id              = my_tls_id,
         edges               = edges,
         lanes               = lanes,
-        n_episodes          = 5,
+        n_episodes          = 8,
         max_steps           = 3500,
         rl_steps_per_episode= 50
     )
