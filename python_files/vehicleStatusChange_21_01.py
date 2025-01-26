@@ -419,7 +419,7 @@ if __name__ == "__main__":
     SUMO_CFG_PATH = "/content/sumofilesA/A.sumocfg"
 
     print("Testing SUMO config offline:")
-    !sumo -c $SUMO_CFG_PATH
+    # !sumo -c $SUMO_CFG_PATH
 
     # Retrieve network info
     tls_ids, edges, lanes = get_sumo_info(SUMO_CFG_PATH, label="infoConnection")
