@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-01-11 12:43:31 by Eclipse SUMO netedit Version v1_20_0+2047-af81d0c876d
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!--Define Vehicle Types-->
+    <vType id="car" vClass="passenger" color="1,0,0" />
+    <vType id="truck" vClass="truck" color="0,1,0" />
+
+    <!-- Define routes -->
+    <route id="route_forward_1" edges="E0 E1"/>
+    <route id="route_forward_2" edges="E0 -E2"/>
+    <route id="route_forward_3" edges="E0 E3"/>
+
+    <route id="route_forward_4" edges="E2 E3"/>
+    <route id="route_forward_5" edges="E2 -E0"/>
+    <route id="route_forward_6" edges="E2 E1"/>
+
+    <route id="route_forward_7" edges="-E3 -E2"/>
+    <route id="route_forward_8" edges="-E3 E1"/>
+    <route id="route_forward_9" edges="-E3 -E0"/>
+
+    <route id="route_forward_10" edges="-E1 -E0"/>
+    <route id="route_forward_11" edges="-E1 E3"/>
+    <route id="route_forward_12" edges="-E1 -E2"/>
+
+
+    <!-- Define vehicle flows -->
+
+    <!-- 07:30 – 09:00 -->
+    <flow id="morning_flow_1"  route="route_forward_1"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_2"  route="route_forward_2"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_3"  route="route_forward_3"  begin="0.00"  end="200.00"  number="24"/>
+    <flow id="morning_flow_4"  route="route_forward_4"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_5"  route="route_forward_5"  begin="0.00"  end="200.00"  number="24"/>
+    <flow id="morning_flow_6"  route="route_forward_6"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_7"  route="route_forward_7"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_8"  route="route_forward_8"  begin="0.00"  end="200.00"  number="24"/>
+    <flow id="morning_flow_9"  route="route_forward_9"  begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_10" route="route_forward_10" begin="0.00"  end="200.00"  number="22"/>
+    <flow id="morning_flow_11" route="route_forward_11" begin="0.00"  end="200.00"  number="30"/>
+    <flow id="morning_flow_12" route="route_forward_12" begin="0.00"  end="200.00"  number="24"/>
+
+    <!-- 09:00 – 13:00 -->
+    <flow id="late_morning_flow_1"  route="route_forward_1"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_2"  route="route_forward_2"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_3"  route="route_forward_3"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_4"  route="route_forward_4"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_5"  route="route_forward_5"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_6"  route="route_forward_6"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_7"  route="route_forward_7"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_8"  route="route_forward_8"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_9"  route="route_forward_9"  begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_10" route="route_forward_10" begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_11" route="route_forward_11" begin="200.00"  end="700.00"  number="20"/>
+    <flow id="late_morning_flow_12" route="route_forward_12" begin="200.00"  end="700.00"  number="20"/>
+
+    <!-- 13:00 – 14:00 -->
+    <flow id="lunch_flow_1"  route="route_forward_1"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_2"  route="route_forward_2"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_3"  route="route_forward_3"  begin="700.00"  end="800.000"  number="20"/>
+    <flow id="lunch_flow_4"  route="route_forward_4"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_5"  route="route_forward_5"  begin="700.00"  end="800.000"  number="20"/>
+    <flow id="lunch_flow_6"  route="route_forward_6"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_7"  route="route_forward_7"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_8"  route="route_forward_8"  begin="700.00"  end="800.000"  number="20"/>
+    <flow id="lunch_flow_9"  route="route_forward_9"  begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_10" route="route_forward_10" begin="700.00"  end="800.000"  number="22"/>
+    <flow id="lunch_flow_11" route="route_forward_11" begin="700.00"  end="800.000"  number="24"/>
+    <flow id="lunch_flow_12" route="route_forward_12" begin="700.00"  end="800.000"  number="20"/>
+
+    <!-- 14:00 – 18:00 -->
+    <flow id="afternoon_flow_1"  route="route_forward_1"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_2"  route="route_forward_2"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_3"  route="route_forward_3"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_4"  route="route_forward_4"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_5"  route="route_forward_5"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_6"  route="route_forward_6"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_7"  route="route_forward_7"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_8"  route="route_forward_8"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_9"  route="route_forward_9"  begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_10" route="route_forward_10" begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_11" route="route_forward_11" begin="800.000"  end="1200.00"  number="20"/>
+    <flow id="afternoon_flow_12" route="route_forward_12" begin="800.000"  end="1200.00"  number="20"/>
+
+    <!-- 18:00 – 20:00 -->
+    <flow id="evening_flow_1"  route="route_forward_1"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_2"  route="route_forward_2"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_3"  route="route_forward_3"  begin="1200.00"  end="1400.00"  number="24"/>
+    <flow id="evening_flow_4"  route="route_forward_4"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_5"  route="route_forward_5"  begin="1200.00"  end="1400.00"  number="24"/>
+    <flow id="evening_flow_6"  route="route_forward_6"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_7"  route="route_forward_7"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_8"  route="route_forward_8"  begin="1200.00"  end="1400.00"  number="24"/>
+    <flow id="evening_flow_9"  route="route_forward_9"  begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_10" route="route_forward_10" begin="1200.00"  end="1400.00"  number="22"/>
+    <flow id="evening_flow_11" route="route_forward_11" begin="1200.00"  end="1400.00"  number="30"/>
+    <flow id="evening_flow_12" route="route_forward_12" begin="1200.00"  end="1400.00"  number="24"/>
+
+    <!-- 20:00 – 00:00 -->
+    <flow id="post_evening_flow_1"  route="route_forward_1"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_2"  route="route_forward_2"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_3"  route="route_forward_3"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_4"  route="route_forward_4"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_5"  route="route_forward_5"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_6"  route="route_forward_6"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_7"  route="route_forward_7"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_8"  route="route_forward_8"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_9"  route="route_forward_9"  begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_10" route="route_forward_10" begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_11" route="route_forward_11" begin="1400.00"  end="1600.00"  number="20"/>
+    <flow id="post_evening_flow_12" route="route_forward_12" begin="1400.00"  end="1600.00"  number="20"/>
+
+    <!-- 00:00–07:30 -->
+    <flow id="night_flow_1"  route="route_forward_1"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_2"  route="route_forward_2"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_3"  route="route_forward_3"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_4"  route="route_forward_4"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_5"  route="route_forward_5"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_6"  route="route_forward_6"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_7"  route="route_forward_7"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_8"  route="route_forward_8"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_9"  route="route_forward_9"  begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_10" route="route_forward_10" begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_11" route="route_forward_11" begin="1600.00"    end="2400.00"  number="5"/>
+    <flow id="night_flow_12" route="route_forward_12" begin="1600.00"    end="2400.00"  number="5"/>
+</routes>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-01-11 13:25:58 by Eclipse SUMO netedit Version v1_20_0+2047-af81d0c876d
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <!--Define Vehicle Types-->
+    <vType id="car" vClass="passenger" color="1,0,0" />
+    <vType id="truck" vClass="truck" color="0,1,0" />
+
+    <!-- Define routes -->
+    <route id="route_forward_1" edges="E0 E1"/>
+    <route id="route_forward_2" edges="E0 -E2"/>
+
+    <route id="route_forward_3" edges="-E1 -E0"/>
+    <route id="route_forward_4" edges="-E1 -E2"/>
+
+    <route id="route_forward_5" edges="E2 E1"/>
+    <route id="route_forward_6" edges="E2 -E0"/>
+
+    <!-- Define vehicle flows -->
+    <flow id="low_flow_forward_1" route="route_forward_1" begin="0.00" end="1500.00" number="500"/> 
+    <flow id="low_flow_forward_2" route="route_forward_2" begin="0.00" end="1500.00" number="500"/>
+    <flow id="low_flow_forward_3" route="route_forward_3" begin="0.00" end="1500.00" number="500"/> 
+    <flow id="low_flow_forward_4" route="route_forward_4" begin="0.00" end="1500.00" number="500"/> 
+    <flow id="low_flow_forward_5" route="route_forward_5" begin="0.00" end="1500.00" number="500"/> 
+    <flow id="low_flow_forward_6" route="route_forward_6" begin="0.00" end="1500.00" number="500"/> 
+</routes>
