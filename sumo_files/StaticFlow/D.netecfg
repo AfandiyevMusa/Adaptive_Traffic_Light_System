@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2025-02-20 16:52:50 by Eclipse SUMO netedit Version v1_20_0+2047-af81d0c876d
+-->
+
+<neteditConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
+
+    <input>
+        <sumocfg-file value="D.sumocfg"/>
+        <additional-files value="D.add.xml"/>
+        <route-files value="D.rou.xml"/>
+        <data-files value="D.dat.xml"/>
+        <sumo-net-file value="D.net.xml"/>
+    </input>
+
+    <processing>
+        <offset.disable-normalization value="true"/>
+    </processing>
+
+    <junctions>
+        <no-turnarounds value="true"/>
+    </junctions>
+
+    <netedit>
+        <new-network value="false"/>
+    </netedit>
+
+</neteditConfiguration>
