@@ -61,22 +61,6 @@ def get_tls_phases(sumo_cfg_path, tls_id, label="phaseConnection"):
     conn.close()
     return phase_dict
 
-
-#############################################################################
-#Helper function: one_hot_vector (new parameter for state)
-#############################################################################
-
-def one_hot_vector(size, bit):
-    vector = np.zeros(size, dtype=int)
-    # Ensure bit is within bounds (if not, clip)
-    if bit < 0:
-        bit = 0
-    elif bit >= size:
-        bit = size - 1
-    vector[bit] = 1
-    return vector
-
-
 ##############################################################################
 # 2. SumoEnvironment (Modified for speed)
 ##############################################################################
@@ -150,11 +134,13 @@ class SumoEnvironment:
         logic = logic_list[0]
         phases = logic.getPhases()
 
+        total_waiting = sum(self.conn.lane.getLastStepHaltingNumber(lane) for lane in self.lanes)
+
         # For two-phase system: phases[0] is green, phases[1] is red.
         g_dur = phases[0].duration
         r_dur = phases[1].duration
 
-        if self.step_count % 5 == 0:
+        if (self.step_count % 5) == 0 and (total_waiting > 20):
             g_dur = phases[0].duration
             r_dur = phases[1].duration
 
@@ -242,9 +228,8 @@ class SumoEnvironment:
         norm_road_length = (self.road_length / 100.0) if self.road_length is not None else 0.0
 
         sim_time = self.conn.simulation.getTime()
-        time_one_hot = list(one_hot_vector(24, int(sim_time)//500))
 
-        state_vector = [norm_queue_length] + phase_one_hot + [norm_phase_dur, norm_total_veh, norm_road_length] + time_one_hot
+        state_vector = [norm_queue_length] + phase_one_hot + [norm_phase_dur, norm_total_veh, norm_road_length]
         return np.array(state_vector, dtype=float)
 
     def calculate_reward(self):
@@ -377,7 +362,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
     init_env.close()  # Close initial environment instance
 
      # Prepare Excel logging
-    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow.xlsx')
+    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow_28_02.xlsx')
     worksheet = workbook.add_worksheet('Results')
 
     # We rename "Action" column to "PhaseDurations" as requested
@@ -413,8 +398,16 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
 
         for step_counter in range(max_steps):
 
-            # Decide action
-            action = agent.act(state)
+            # Count active cars
+            queue_length = sum(env.conn.lane.getLastStepHaltingNumber(l) for l in lanes)
+            active_cars = sum(env.conn.lane.getLastStepVehicleNumber(l) for l in lanes)
+
+            # Agent decides action every 2 steps
+            if queue_length > 20:
+                action = agent.act(state)
+            else:
+                action = 4  # no change
+
             next_state, reward, done, _ = env.step(action)
 
             # Immediately after step, we retrieve the entire [g,y,r] from the environment
@@ -422,18 +415,14 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
             logic      = logic_list[0]
             phases     = logic.getPhases()
             # We'll log them as a string, e.g. "[20, 20]"
-            phase_dur = [phases[0].duration,
-                                       phases[1].duration]
+            phase_dur = [phases[0].duration, phases[1].duration]
 
-            # Count active cars
-            queue_length = sum(env.conn.lane.getLastStepHaltingNumber(l) for l in lanes)
-            active_cars = sum(env.conn.lane.getLastStepVehicleNumber(l) for l in lanes)
 
             # Retrieve simulation time
             sim_time = env.conn.simulation.getTime()
 
             # Log episode and step information
-            if step_counter % 50 == 0:  # Print every 10 steps
+            if step_counter % 20 == 0:  # Print every 10 steps
               print(f"Episode {e + 1}, SimulationTime: {sim_time}, Queue_length: {queue_length}, Active_Cars: {active_cars}, Step {step_counter}, Reward: {reward:.2f}, PhaseDuration: {phase_dur}")
 
             # Log to Excel
@@ -443,14 +432,15 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
             worksheet.write(row_excel, 3, str(phase_dur))         # Phase durations [G, R]
             worksheet.write(row_excel, 4, queue_length)           # Queue length
             worksheet.write(row_excel, 5, active_cars)            # Active cars
-            worksheet.write(row_excel, 6, reward)                 # Reward                               # Reward
+            worksheet.write(row_excel, 6, reward)                 # Reward                             
             row_excel += 1
 
             # DQN memory & training
-            agent.remember(state, action, reward, next_state, done)
-            agent.replay()
-            if step_counter % 50 == 0 and step_counter>0:
-                agent._update_target_model()
+            if queue_length > 20:
+                agent.remember(state, action, reward, next_state, done)
+                agent.replay()
+                if step_counter % 300 == 0 and step_counter > 0:
+                    agent._update_target_model()
 
             state = next_state
             total_reward += reward
@@ -498,7 +488,7 @@ if __name__ == "__main__":
         tls_id              = my_tls_id,
         edges               = edges,
         lanes               = lanes,
-        n_episodes          = 10,
-        max_steps           = 12000
+        n_episodes          = 1,
+        max_steps           = 14000
     )
 
