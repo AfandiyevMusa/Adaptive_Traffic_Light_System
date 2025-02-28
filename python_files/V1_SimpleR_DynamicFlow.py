@@ -123,7 +123,7 @@ class SumoEnvironment:
 
         return self.get_state()
 
-    def step(self, action):
+    def step(self, action, sim_time, step_counter):
         """
         5 actions that modify phases[0]=green or phases[1]=red by +/-1 sec
         (action 4 = no change), then advances one simulation step.
@@ -134,13 +134,11 @@ class SumoEnvironment:
         logic = logic_list[0]
         phases = logic.getPhases()
 
-        total_waiting = sum(self.conn.lane.getLastStepHaltingNumber(lane) for lane in self.lanes)
-
         # For two-phase system: phases[0] is green, phases[1] is red.
         g_dur = phases[0].duration
         r_dur = phases[1].duration
 
-        if (self.step_count % 5) == 0 and (total_waiting > 20):
+        if ((3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
             g_dur = phases[0].duration
             r_dur = phases[1].duration
 
@@ -157,6 +155,18 @@ class SumoEnvironment:
             phases[0].duration = g_dur
             phases[1].duration = r_dur
 
+            # print(f"Sim_time: {sim_time} // case 1 // step_count {step_counter} phase1: {phases[0].duration} phase2: {phases[1].duration}")
+
+            self.conn.trafficlight.setProgramLogic(self.tls_id, logic)
+
+        elif (4501 < sim_time < 5000) or (7001 < sim_time < 7500) or (10001 < sim_time < 10500):
+            self.conn.trafficlight.setProgramLogic(self.tls_id, logic)
+            # print(f"Sim_time: {sim_time}  // case 2 // step_count {self.step_count}")
+
+        else:
+            phases[0].duration = 20
+            phases[1].duration = 20
+            # print(f"Sim_time:  {sim_time} // case 3 // step_count: {self.step_count}")
             self.conn.trafficlight.setProgramLogic(self.tls_id, logic)
 
         total_cycle_time = phases[0].duration + phases[1].duration
@@ -256,7 +266,7 @@ class DQNAgent:
     def __init__(self, state_size, action_size,
                  learning_rate=0.001,
                  gamma=0.8,
-                 epsilon=0.5,
+                 epsilon=0.25,
                  epsilon_min=0.01,
                  epsilon_decay=0.995,
                  batch_size=128,
@@ -354,7 +364,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
         state_size   = state_size,
         action_size  = action_size,
         gamma        = 0.8,
-        epsilon      = 0.2,
+        epsilon      = 0.25,
         batch_size   = 128,
         memory_size  = 1000
     )
@@ -362,7 +372,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
     init_env.close()  # Close initial environment instance
 
      # Prepare Excel logging
-    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow_28_02.xlsx')
+    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow_Each_Step.xlsx')
     worksheet = workbook.add_worksheet('Results')
 
     # We rename "Action" column to "PhaseDurations" as requested
@@ -402,13 +412,8 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
             queue_length = sum(env.conn.lane.getLastStepHaltingNumber(l) for l in lanes)
             active_cars = sum(env.conn.lane.getLastStepVehicleNumber(l) for l in lanes)
 
-            # Agent decides action every 2 steps
-            if queue_length > 20:
-                action = agent.act(state)
-            else:
-                action = 4  # no change
-
-            next_state, reward, done, _ = env.step(action)
+            # Retrieve simulation time
+            sim_time = env.conn.simulation.getTime()
 
             # Immediately after step, we retrieve the entire [g,y,r] from the environment
             logic_list = env.conn.trafficlight.getAllProgramLogics(env.tls_id)
@@ -417,9 +422,15 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
             # We'll log them as a string, e.g. "[20, 20]"
             phase_dur = [phases[0].duration, phases[1].duration]
 
+            # Agent decides action in the increasing traffic time
+            if  (3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000):
+                action = agent.act(state)
+                # print(f"TRAIN: Sim_time: {sim_time} // case 1 // step_count: {step_counter}")
+            else:
+                action = 4  # no change
+                # print(f"TRAIN: Sim_time: {sim_time} // case 2 // step_count: {step_counter}")
 
-            # Retrieve simulation time
-            sim_time = env.conn.simulation.getTime()
+            next_state, reward, done, _ = env.step(action, sim_time, step_counter)
 
             # Log episode and step information
             if step_counter % 20 == 0:  # Print every 10 steps
@@ -436,10 +447,10 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
             row_excel += 1
 
             # DQN memory & training
-            if queue_length > 20:
+            if  (3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000):
                 agent.remember(state, action, reward, next_state, done)
                 agent.replay()
-                if step_counter % 300 == 0 and step_counter > 0:
+                if step_counter % 50 == 0 and step_counter > 0:
                     agent._update_target_model()
 
             state = next_state
@@ -488,7 +499,7 @@ if __name__ == "__main__":
         tls_id              = my_tls_id,
         edges               = edges,
         lanes               = lanes,
-        n_episodes          = 1,
+        n_episodes          = 10,
         max_steps           = 14000
     )
 
