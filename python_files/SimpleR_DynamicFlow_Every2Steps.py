@@ -138,7 +138,7 @@ class SumoEnvironment:
         g_dur = phases[0].duration
         r_dur = phases[1].duration
 
-        if (step_counter % 2 == 0 and (3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
+        if ((3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
             g_dur = phases[0].duration
             r_dur = phases[1].duration
 
@@ -266,9 +266,8 @@ class DQNAgent:
     def __init__(self, state_size, action_size,
                  learning_rate=0.001,
                  gamma=0.8,
-                 epsilon=0.25,
+                 epsilon=0.8,
                  epsilon_min=0.01,
-                 epsilon_decay=0.995,
                  batch_size=128,
                  memory_size=1000):
 
@@ -278,7 +277,6 @@ class DQNAgent:
         self.gamma          = gamma
         self.epsilon        = epsilon
         self.epsilon_min    = epsilon_min
-        self.epsilon_decay  = epsilon_decay
         self.batch_size     = batch_size
 
         self.memory = deque(maxlen=memory_size)
@@ -290,11 +288,11 @@ class DQNAgent:
     def _build_model(self):
         with tf.device("/device:GPU:0"):
             model = keras.Sequential()
-            model.add(keras.layers.Dense(32, input_dim=self.state_size, activation='relu'))
-            model.add(keras.layers.Dense(32, activation='relu'))
+            model.add(keras.layers.Dense(64, input_dim=self.state_size, activation='relu'))
+            model.add(keras.layers.Dense(64, activation='relu'))
             model.add(keras.layers.Dense(self.action_size, activation='linear'))
             model.compile(
-                loss='mse',
+                loss=tf.keras.losses.Huber(),  # Changed loss from 'mse' to Huber loss
                 optimizer=keras.optimizers.Adam(learning_rate=self.learning_rate)
             )
         return model
@@ -334,15 +332,12 @@ class DQNAgent:
         with tf.device("/device:GPU:0"):
             self.model.fit(states, targets, epochs=1, verbose=0)
 
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
-
 
 ##############################################################################
 # 4. Training function (V1 style: agent acts every step)
 ##############################################################################
 
-def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
+def train_dqn(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
     """
     Runs training over n_episodes. The state is updated at every simulation step.
     The state vector has 6 inputs:
@@ -364,7 +359,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
         state_size   = state_size,
         action_size  = action_size,
         gamma        = 0.8,
-        epsilon      = 0.25,
+        epsilon      = 0.8,       # Starting with full exploration
         batch_size   = 128,
         memory_size  = 1000
     )
@@ -372,7 +367,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
     init_env.close()  # Close initial environment instance
 
      # Prepare Excel logging
-    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow_Each_Step.xlsx')
+    workbook  = xlsxwriter.Workbook('SimpleR_DynamicFlow_Each_Step_04_03.xlsx')
     worksheet = workbook.add_worksheet('Results')
 
     # We rename "Action" column to "PhaseDurations" as requested
@@ -462,6 +457,10 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
 
         episode_rewards.append(total_reward)
         print(f"[Episode {e+1}/{n_episodes}] Total Reward: {total_reward:.2f}")
+
+        # Per-episode epsilon decay update:
+        agent.epsilon = max(agent.epsilon * 0.95, agent.epsilon_min)
+
         agent._update_target_model()
         env.close()
 
@@ -494,12 +493,12 @@ if __name__ == "__main__":
     print("Initial phases:", phases)
 
     # run training
-    train_dqn_fixed_steps(
+    train_dqn(
         sumo_cfg_path       = SUMO_CFG_PATH,
         tls_id              = my_tls_id,
         edges               = edges,
         lanes               = lanes,
-        n_episodes          = 10,
-        max_steps           = 14000
+        n_episodes          = 60,
+        max_steps           = 12000
     )
 
