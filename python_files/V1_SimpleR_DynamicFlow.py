@@ -138,7 +138,7 @@ class SumoEnvironment:
         g_dur = phases[0].duration
         r_dur = phases[1].duration
 
-        if ((3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
+        if (step_counter % 2 == 0 and (3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
             g_dur = phases[0].duration
             r_dur = phases[1].duration
 
@@ -266,9 +266,8 @@ class DQNAgent:
     def __init__(self, state_size, action_size,
                  learning_rate=0.001,
                  gamma=0.8,
-                 epsilon=0.25,
+                 epsilon=1.0,
                  epsilon_min=0.01,
-                 epsilon_decay=0.995,
                  batch_size=128,
                  memory_size=1000):
 
@@ -278,7 +277,6 @@ class DQNAgent:
         self.gamma          = gamma
         self.epsilon        = epsilon
         self.epsilon_min    = epsilon_min
-        self.epsilon_decay  = epsilon_decay
         self.batch_size     = batch_size
 
         self.memory = deque(maxlen=memory_size)
@@ -290,11 +288,11 @@ class DQNAgent:
     def _build_model(self):
         with tf.device("/device:GPU:0"):
             model = keras.Sequential()
-            model.add(keras.layers.Dense(32, input_dim=self.state_size, activation='relu'))
-            model.add(keras.layers.Dense(32, activation='relu'))
+            model.add(keras.layers.Dense(64, input_dim=self.state_size, activation='relu'))
+            model.add(keras.layers.Dense(64, activation='relu'))
             model.add(keras.layers.Dense(self.action_size, activation='linear'))
             model.compile(
-                loss='mse',
+                loss=tf.keras.losses.Huber(),  # Changed loss from 'mse' to Huber loss
                 optimizer=keras.optimizers.Adam(learning_rate=self.learning_rate)
             )
         return model
@@ -334,20 +332,45 @@ class DQNAgent:
         with tf.device("/device:GPU:0"):
             self.model.fit(states, targets, epochs=1, verbose=0)
 
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
-
 
 ##############################################################################
 # 4. Training function (V1 style: agent acts every step)
 ##############################################################################
 
-def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
+def train_dqn(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
     """
     Runs training over n_episodes. The state is updated at every simulation step.
     The state vector has 6 inputs:
       [norm_queue_length, phase0_one_hot, phase1_one_hot, norm_phase_duration, norm_total_vehicles, norm_road_length]
     """
+
+    # Files for saving weights and episode number
+    WEIGHTS_FILE = "dqn_weights.weights.h5"
+    EPISODE_FILE = "episode_num.txt"
+    EPSILON_FILE = "epsilon.txt"
+
+    # Determine starting episode
+    if os.path.exists(EPISODE_FILE):
+        with open(EPISODE_FILE, "r") as f:
+            try:
+                last_episode = int(f.read().strip())
+                start_episode = last_episode + 1
+                print(f"Resuming from episode {start_episode}")
+            except:
+                start_episode = 1
+    else:
+        start_episode = 1
+
+    if os.path.exists(EPSILON_FILE):
+        with open(EPSILON_FILE, "r") as f:
+            try:
+                epsilon_value = float(f.read().strip())
+                print(f"Resuming with epsilon = {epsilon_value}")
+            except:
+                epsilon_value = 1.0
+    else:
+        epsilon_value = 1.0   
+
     init_env = SumoEnvironment(
         sumo_cfg_path = sumo_cfg_path,
         tls_id = tls_id,
@@ -364,15 +387,21 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
         state_size   = state_size,
         action_size  = action_size,
         gamma        = 0.8,
-        epsilon      = 0.25,
+        epsilon      = epsilon_value,
         batch_size   = 128,
         memory_size  = 1000
     )
 
+    # If a previous weights file exists, load the weights into the agent and update target model
+    if os.path.exists(WEIGHTS_FILE):
+        agent.model.load_weights(WEIGHTS_FILE)
+        agent._update_target_model()
+        print("Loaded existing weights.")
+
     init_env.close()  # Close initial environment instance
 
      # Prepare Excel logging
-    workbook  = xlsxwriter.Workbook('V1_SimpleR_DynamicFlow_Each_Step.xlsx')
+    workbook  = xlsxwriter.Workbook('SimpleR_DynamicFlow_Each_Step_07_03.xlsx')
     worksheet = workbook.add_worksheet('Results')
 
     # We rename "Action" column to "PhaseDurations" as requested
@@ -384,14 +413,13 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
     episode_rewards = []
 
     for e in range(n_episodes):
-
         # Use the imported function from randomized.py to randomize flows each episode.
         randomized.randomize_flows(randomized.ORIGINAL_ROU_FILE,
                                    randomized.RANDOMIZED_ROU_FILE,
                                    randomized.PREFIX_RANGES)
         print(f"🔄 Flows randomized for episode {e+1}")
 
-        print(f"Starting Episode {e + 1}/{n_episodes}")
+        print(f"Starting Episode {e+1}/{n_episodes} current epsilon: {agent.epsilon}")
 
         # IMPORTANT CHANGE: Create a NEW environment instance per episode so that
         # previous episode data is preserved in agent's memory.
@@ -437,7 +465,7 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
               print(f"Episode {e + 1}, SimulationTime: {sim_time}, Queue_length: {queue_length}, Active_Cars: {active_cars}, Step {step_counter}, Reward: {reward:.2f}, PhaseDuration: {phase_dur}")
 
             # Log to Excel
-            worksheet.write(row_excel, 0, e)                      # Episode
+            worksheet.write(row_excel, 0, e + start_episode)  # Episode
             worksheet.write(row_excel, 1, sim_time)               # Simulation Time
             worksheet.write(row_excel, 2, step_counter)           # Step
             worksheet.write(row_excel, 3, str(phase_dur))         # Phase durations [G, R]
@@ -462,8 +490,21 @@ def train_dqn_fixed_steps(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_s
 
         episode_rewards.append(total_reward)
         print(f"[Episode {e+1}/{n_episodes}] Total Reward: {total_reward:.2f}")
+
+        # Per-episode epsilon decay update:
+        agent.epsilon = max(agent.epsilon * 0.95, agent.epsilon_min)
+        print(f"Updated epsilon for next episode: {agent.epsilon:.4f}")
+
         agent._update_target_model()
         env.close()
+
+        # Save current weights and episode number after each episode.
+        agent.model.save_weights(WEIGHTS_FILE)
+        with open(EPISODE_FILE, "w") as f:
+            f.write(str(e + start_episode))  # Save next starting episode
+        with open(EPSILON_FILE, "w") as f:
+            f.write(str(agent.epsilon))
+        print(f"Episode {e + start_episode} and epsilon {agent.epsilon} saved.") 
 
     # close
     workbook.close()
@@ -494,12 +535,12 @@ if __name__ == "__main__":
     print("Initial phases:", phases)
 
     # run training
-    train_dqn_fixed_steps(
+    train_dqn(
         sumo_cfg_path       = SUMO_CFG_PATH,
         tls_id              = my_tls_id,
         edges               = edges,
         lanes               = lanes,
-        n_episodes          = 10,
-        max_steps           = 14000
+        n_episodes          = 50,
+        max_steps           = 12000
     )
 
