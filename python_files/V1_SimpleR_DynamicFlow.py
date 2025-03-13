@@ -492,7 +492,7 @@ def train_dqn(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
         print(f"[Episode {e+1}/{n_episodes}] Total Reward: {total_reward:.2f}")
 
         # Per-episode epsilon decay update:
-        agent.epsilon = max(agent.epsilon * 0.95, agent.epsilon_min)
+        agent.epsilon = max(agent.epsilon * 0.9788, agent.epsilon_min)
         print(f"Updated epsilon for next episode: {agent.epsilon:.4f}")
 
         agent._update_target_model()
