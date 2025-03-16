@@ -138,7 +138,7 @@ class SumoEnvironment:
         g_dur = phases[0].duration
         r_dur = phases[1].duration
 
-        if (step_counter % 2 == 0 and (3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
+        if ((3500 < sim_time < 4500) or (6500 < sim_time < 7000) or (9000 < sim_time < 10000)):
             g_dur = phases[0].duration
             r_dur = phases[1].duration
 
@@ -264,7 +264,7 @@ class SumoEnvironment:
 
 class DQNAgent:
     def __init__(self, state_size, action_size,
-                 learning_rate=0.001,
+                 learning_rate=0.1,
                  gamma=0.8,
                  epsilon=1.0,
                  epsilon_min=0.01,
@@ -401,7 +401,7 @@ def train_dqn(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
     init_env.close()  # Close initial environment instance
 
      # Prepare Excel logging
-    workbook  = xlsxwriter.Workbook('SimpleR_DynamicFlow_Each_Step_07_03.xlsx')
+    workbook  = xlsxwriter.Workbook('SimpleR_DynamicFlow_Each_Step_16_03.xlsx')
     worksheet = workbook.add_worksheet('Results')
 
     # We rename "Action" column to "PhaseDurations" as requested
@@ -492,7 +492,7 @@ def train_dqn(sumo_cfg_path, tls_id, edges, lanes, n_episodes, max_steps):
         print(f"[Episode {e+1}/{n_episodes}] Total Reward: {total_reward:.2f}")
 
         # Per-episode epsilon decay update:
-        agent.epsilon = max(agent.epsilon * 0.9788, agent.epsilon_min)
+        agent.epsilon = max(agent.epsilon * 0.92, agent.epsilon_min)
         print(f"Updated epsilon for next episode: {agent.epsilon:.4f}")
 
         agent._update_target_model()
